@@ -131,7 +131,7 @@
         "\n",
         "Load an image, convert to grayscale, and resize to appropriate dimensions while maintaining aspect ratio."
       ],
-      "id": "3c948443"
+      "id": "c241ecb3"
     },
     {
       "cell_type": "code",
@@ -169,7 +169,7 @@
         "\n",
         "Generate a blue noise stippling pattern from the prepared image. This creates a pattern of dots that preserves visual information while maintaining good spatial distribution."
       ],
-      "id": "d26d677f"
+      "id": "80405f92"
     },
     {
       "cell_type": "code",
@@ -229,7 +229,7 @@
         "\n",
         "Create a tonal analysis by dividing the image into a grid and computing average brightness in each section. This visualizes the distribution of tones and helps identify which brightness ranges are most important."
       ],
-      "id": "b72915da"
+      "id": "319e24da"
     },
     {
       "cell_type": "code",
@@ -323,7 +323,7 @@
         "\n",
         "**Your code should go in a file called `step4_create_block_letter.py`.** Once you've written it, you'll use it like this:"
       ],
-      "id": "ab193008"
+      "id": "778c085f"
     },
     {
       "cell_type": "code",
@@ -375,7 +375,7 @@
         "\n",
         "**Your code should go in a file called `step5_create_masked.py`.** Once you've written it, you'll use it like this:"
       ],
-      "id": "0b9e8f8e"
+      "id": "034433b0"
     },
     {
       "cell_type": "code",
@@ -432,7 +432,7 @@
         "\n",
         "**Your code should go in a file called `create_meme.py`.** Once you've written it, you'll use it like this:"
       ],
-      "id": "67c03495"
+      "id": "53410edc"
     },
     {
       "cell_type": "code",
@@ -489,7 +489,7 @@
         "\n",
         "### Final meme"
       ],
-      "id": "e0184b1f"
+      "id": "a5b1a928"
     },
     {
       "cell_type": "code",
@@ -535,7 +535,7 @@
         "\n",
         "As you work with real datasets, remember the lesson of this meme: when data is missing in a systematic pattern rather than randomly, your estimates become biased. Recognizing and addressing selection bias is crucial for drawing valid conclusions from your data.\n"
       ],
-      "id": "ebe9ebe6"
+      "id": "5bc53bae"
     }
   ],
   "metadata": {
