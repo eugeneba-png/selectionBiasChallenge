@@ -1,6 +1,7 @@
 ---
 title: "Selection Bias & Missing Data Challenge"
 subtitle: "Creating a Statistics Meme: Write Your Own Functions"
+jupyter: selectionbias-venv
 format:
   html: default
 execute:
@@ -86,9 +87,9 @@ This challenge is organized into discrete steps. Steps 1-3 are provided for you.
 1. **Step 1**: Prepare black and white image (provided) ✅
 2. **Step 2**: Create stippled image using blue noise stippling (provided) ✅
 3. **Step 3**: Create tonal analysis (optional refinement step, provided) ✅
-4. **Step 4**: Create block letter "S" matching image dimensions (**YOU WRITE THIS**) ⚠️
-5. **Step 5**: Create masked image by applying the letter mask to the stippled image (**YOU WRITE THIS**) ⚠️
-6. **Final**: Assemble all components into the four-panel meme (**YOU WRITE THIS**) ⚠️
+4. **Step 4**: Create block letter "S" matching image dimensions ✅
+5. **Step 5**: Create masked image by applying the letter mask to the stippled image ✅
+6. **Final**: Assemble all components into the four-panel meme ✅
 
 **Note:** Step 3 is optional but recommended. It helps you understand your image's brightness distribution and refine the stippling parameters in Step 2 for better results.
 
@@ -112,9 +113,9 @@ This challenge uses a modular design where each step is implemented as a discret
 - **`step3_create_tonal.py`**: Tonal analysis (optional)
 
 **Steps you'll write:**
-- **`step4_create_block_letter.py`**: Block letter generation ⚠️
-- **`step5_create_masked.py`**: Mask application ⚠️
-- **`create_meme.py`**: Final assembly and visualization ⚠️
+- **`step4_create_block_letter.py`**: Block letter generation ✅
+- **`step5_create_masked.py`**: Mask application ✅
+- **`create_meme.py`**: Final assembly and visualization ✅
 
 **Supporting functions (provided):**
 - **`importance_map.py`**: Computes importance map for stippling
@@ -133,9 +134,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from step1_prepare_image import prepare_image
 
-# Load and prepare the image
-# CHANGE THIS to use your own image!
-img_path = 'fleischhacker.jpg'  # Example image - replace with your own image
+# Load and prepare the image (put a JPEG/PNG next to index.qmd, or a demo is used)
+img_path = "/Users/eugeneasare/Dropbox/Mac/Downloads/IMG_4514.JPG"
 gray_image = prepare_image(img_path, max_size=512)
 
 # Display the prepared image
@@ -284,24 +284,18 @@ print(f"  - Use mid_tone_center around {tonal_stats['mean']:.2f} to emphasize av
 #| label: step4-block-letter
 #| echo: false
 #| fig-cap: "Block letter S representing selection bias"
-#| eval: false
 
-# UNCOMMENT AND USE THIS ONCE YOU'VE WRITTEN step4_create_block_letter.py:
-# from step4_create_block_letter import create_block_letter_s
-# 
-# # Get image dimensions
-# h, w = gray_image.shape
-# 
-# # Create block letter S
-# block_letter = create_block_letter_s(h, w, letter="S", font_size_ratio=0.9)
-# 
-# # Display the block letter
-# fig, ax = plt.subplots(figsize=(6.5, 5))
-# ax.imshow(block_letter, cmap='gray', vmin=0, vmax=1)
-# ax.axis('off')
-# ax.set_title('Step 4: Selection Bias (Block Letter S)', fontsize=14, fontweight='bold', pad=10)
-# plt.tight_layout()
-# plt.show()
+from step4_create_block_letter import create_block_letter_s
+
+h, w = gray_image.shape
+block_letter = create_block_letter_s(h, w, letter="S", font_size_ratio=0.9)
+
+fig, ax = plt.subplots(figsize=(6.5, 5))
+ax.imshow(block_letter, cmap='gray', vmin=0, vmax=1)
+ax.axis('off')
+ax.set_title('Step 4: Selection Bias (Block Letter S)', fontsize=14, fontweight='bold', pad=10)
+plt.tight_layout()
+plt.show()
 ```
 
 ## Step 5: Create Masked Image ⚠️ **YOUR TASK**
@@ -330,25 +324,21 @@ print(f"  - Use mid_tone_center around {tonal_stats['mean']:.2f} to emphasize av
 #| label: step5-masked
 #| echo: false
 #| fig-cap: "Masked stippled image showing selection bias effect"
-#| eval: false
 
-# UNCOMMENT AND USE THIS ONCE YOU'VE WRITTEN step5_create_masked.py:
-# from step5_create_masked import create_masked_stipple
-# 
-# # Create masked stippled image
-# masked_stipple = create_masked_stipple(
-#     stipple_pattern,
-#     block_letter,
-#     threshold=0.5  # Pixels below 0.5 are considered part of the mask
-# )
-# 
-# # Display the masked image
-# fig, ax = plt.subplots(figsize=(6.5, 5))
-# ax.imshow(masked_stipple, cmap='gray', vmin=0, vmax=1)
-# ax.axis('off')
-# ax.set_title('Step 5: Masked Stippled Image (Estimate)', fontsize=14, fontweight='bold', pad=10)
-# plt.tight_layout()
-# plt.show()
+from step5_create_masked import create_masked_stipple
+
+masked_stipple = create_masked_stipple(
+    stipple_pattern,
+    block_letter,
+    threshold=0.5,
+)
+
+fig, ax = plt.subplots(figsize=(6.5, 5))
+ax.imshow(masked_stipple, cmap='gray', vmin=0, vmax=1)
+ax.axis('off')
+ax.set_title('Step 5: Masked Stippled Image (Estimate)', fontsize=14, fontweight='bold', pad=10)
+plt.tight_layout()
+plt.show()
 ```
 
 ## Create the Final Statistics Meme ⚠️ **YOUR TASK**
@@ -378,22 +368,23 @@ print(f"  - Use mid_tone_center around {tonal_stats['mean']:.2f} to emphasize av
 ```{python}
 #| label: create-final-meme
 #| echo: false
-#| eval: false
 
-# UNCOMMENT AND USE THIS ONCE YOU'VE WRITTEN create_meme.py:
-# from create_meme import create_statistics_meme
-# 
-# # Create the final meme
-# create_statistics_meme(
-#     original_img=gray_image,
-#     stipple_img=stipple_pattern,
-#     block_letter_img=block_letter,
-#     masked_stipple_img=masked_stipple,
-#     output_path="my_statistics_meme.png",
-#     dpi=150,
-#     background_color="white"  # or "pink", "lightgray", etc.
-# )
+from create_meme import create_statistics_meme
+
+create_statistics_meme(
+    original_img=gray_image,
+    stipple_img=stipple_pattern,
+    block_letter_img=block_letter,
+    masked_stipple_img=masked_stipple,
+    output_path="my_statistics_meme.png",
+    dpi=150,
+    background_color="white",
+)
 ```
+
+Meme Explanation: This meme demonstrates selection bias by showing how systematic missing data patterns distort our understanding of reality. The original image (Reality) represents the true population, while the stippled version (Your Model) shows our data collection. When selection bias removes data points in a systematic "S" pattern, the resulting estimate becomes biased and no longer represents the true population, just as missing data in real-world studies can lead to incorrect conclusions.
+
+
 
 ## Your Final Submission
 
@@ -404,9 +395,9 @@ To complete this challenge, you must:
 1. ✅ **Use Step 1** to prepare your own image (with your own image file)
 2. ✅ **Use Step 2** to generate a stippled image using blue noise stippling
 3. ⭐ **Optionally use Step 3** to analyze tonal distribution and refine Step 2 parameters (recommended)
-4. ⚠️ **Write Step 4**: Create `step4_create_block_letter.py` to generate the block letter "S"
-5. ⚠️ **Write Step 5**: Create `step5_create_masked.py` to apply the mask
-6. ⚠️ **Write Final Step**: Create `create_meme.py` to assemble the four-panel meme
+4. ✅ **Write Step 4**: `step4_create_block_letter.py` generates the block letter "S"
+5. ✅ **Write Step 5**: `step5_create_masked.py` applies the mask
+6. ✅ **Write Final Step**: `create_meme.py` assembles the four-panel meme
 7. ✅ **Create a complete `index.qmd`** that uses all functions (with code hidden)
 8. ✅ **Generate your final meme** using your own image
 9. ✅ **Include a brief explanation** (1-3 sentences) of how the meme demonstrates selection bias
@@ -417,29 +408,25 @@ To complete this challenge, you must:
 - The final meme image
 - A brief explanation (1-3 sentences) of how it demonstrates selection bias
 
-### Template for Final Section
-
-Here's a template for your final section:
+### Final meme
 
 ```{python}
 #| label: final-meme
 #| echo: false
-#| eval: false
 #| fig-cap: "Statistics meme demonstrating selection bias"
 
-# Your code to create and display the meme goes here
-# (all the steps above, uncommented and working)
+import matplotlib.image as mpimg
+import matplotlib.pyplot as plt
 
-# Display the final meme
-# from IPython.display import Image, display
-# display(Image("my_statistics_meme.png"))
+meme_png = mpimg.imread("my_statistics_meme.png")
+fig, ax = plt.subplots(figsize=(16, 4.2))
+ax.imshow(meme_png)
+ax.axis("off")
+plt.tight_layout(pad=0.02)
+plt.show()
 ```
 
-### Example Explanation
-
-Your explanation should be 1-3 sentences. Here's an example:
-
-> This meme demonstrates selection bias by showing how systematic missing data patterns distort our understanding of reality. The original image (Reality) represents the true population, while the stippled version (Your Model) shows our data collection. When selection bias removes data points in a systematic "S" pattern, the resulting estimate becomes biased and no longer represents the true population, just as missing data in real-world studies can lead to incorrect conclusions.
+> This meme shows selection bias by comparing the full image (Reality) to a stippled sample (Your Model), then marking a systematic missing-data pattern as an “S” (Selection Bias). The last panel (Estimate) keeps stipples only outside that pattern, so the picture we recover is distorted in the same way estimates are biased when data are missing non-randomly.
 
 ## Tips for Success
 

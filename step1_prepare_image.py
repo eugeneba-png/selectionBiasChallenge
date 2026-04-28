@@ -4,12 +4,30 @@ Loads an image, converts to grayscale, and resizes to appropriate dimensions
 while maintaining aspect ratio.
 """
 
+from __future__ import annotations
+
+import warnings
+from pathlib import Path
+
 import numpy as np
 from PIL import Image
 
 
+def _demo_grayscale_pil() -> Image.Image:
+    """Deterministic stand-in when no image file is available (e.g. first render)."""
+    rng = np.random.default_rng(42)
+    h, w = 600, 400
+    x = np.linspace(0, 1, w)
+    y = np.linspace(0, 1, h)
+    xx, yy = np.meshgrid(x, y)
+    base = 0.3 + 0.4 * np.sin(4 * np.pi * xx) * np.cos(3 * np.pi * yy)
+    base = base + 0.12 * rng.random((h, w))
+    arr = (np.clip(base, 0, 1) * 255).astype(np.uint8)
+    return Image.fromarray(arr, mode="L")
+
+
 def prepare_image(
-    img_path: str,
+    img_path: str | Path,
     max_size: int = 512,
     target_size: tuple[int, int] | None = None
 ) -> np.ndarray:
@@ -19,8 +37,9 @@ def prepare_image(
     
     Parameters
     ----------
-    img_path : str
-        Path to the input image file
+    img_path : str | Path
+        Path to the input image file. If the file is missing, a built-in demo
+        pattern is used and a warning is shown (so notebooks still run).
     max_size : int
         Maximum dimension (width or height) if target_size is None.
         Image will be resized to fit within this size while maintaining aspect ratio.
@@ -33,8 +52,17 @@ def prepare_image(
     img_array : np.ndarray
         Grayscale image as 2D array (height, width) with values in [0, 1]
     """
-    # Load the image
-    original_img = Image.open(img_path)
+    path = Path(img_path).expanduser()
+    if not path.is_file():
+        warnings.warn(
+            f"Image not found: {path!s}. Using a built-in demo pattern. "
+            f"Place your photo at that path, or set img_path to a file that exists.",
+            UserWarning,
+            stacklevel=2,
+        )
+        original_img = _demo_grayscale_pil()
+    else:
+        original_img = Image.open(path)
     
     # Convert to grayscale if needed
     if original_img.mode != 'L':

@@ -2,6 +2,8 @@
 Blue noise stippling functions using a modified void-and-cluster algorithm.
 """
 
+from __future__ import annotations
+
 import numpy as np
 from importance_map import compute_importance
 
